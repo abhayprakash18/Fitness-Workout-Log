@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
+import { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import api from '../api/axios';
 import { useAuth } from './AuthContext';
 
@@ -98,10 +98,30 @@ export const WorkoutProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
+    let ignore = false;
     if (isAuthenticated) {
-      fetchWorkouts();
+      api.get('/workouts')
+        .then((response) => {
+          if (ignore) return;
+          if (Array.isArray(response.data)) {
+            setWorkouts(response.data);
+          } else if (response.data && Array.isArray(response.data.workouts)) {
+            setWorkouts(response.data.workouts);
+          }
+        })
+        .catch((err) => {
+          if (ignore) return;
+          console.warn('Could not fetch from REST API, using existing state:', err.message);
+          setError(err.response?.data?.message || null);
+        })
+        .finally(() => {
+          if (!ignore) setLoading(false);
+        });
     }
-  }, [isAuthenticated, fetchWorkouts]);
+    return () => {
+      ignore = true;
+    };
+  }, [isAuthenticated]);
 
   // Add Workout
   const addWorkout = async (newWorkoutData) => {
@@ -192,6 +212,7 @@ export const WorkoutProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useWorkouts = () => {
   const context = useContext(WorkoutContext);
   if (!context) {

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Dumbbell, LayoutDashboard, PlusCircle, History, User, LogOut, Menu, X, Flame } from 'lucide-react';
+import { Dumbbell, LayoutDashboard, PlusCircle, History, User, LogOut, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();

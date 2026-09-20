@@ -1,8 +1,7 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useWorkouts } from '../context/WorkoutContext';
-import { Dumbbell, Clock, Activity, PlusCircle, ArrowRight, Calendar, Flame, Award, Hash, History } from 'lucide-react';
+import { Dumbbell, Clock, Activity, PlusCircle, ArrowRight, Calendar, Flame, Award, History } from 'lucide-react';
 
 const DashboardPage = () => {
   const { user } = useAuth();

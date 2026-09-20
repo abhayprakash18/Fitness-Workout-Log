@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWorkouts } from '../context/WorkoutContext';
 import { PlusCircle, Dumbbell, Calendar, Clock, Hash, Weight, FileText, ArrowLeft } from 'lucide-react';

@@ -1,33 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { X, Save, Dumbbell, Calendar, Clock, Hash, Weight, FileText } from 'lucide-react';
+import { useState } from 'react';
+import { X, Save, Dumbbell } from 'lucide-react';
+
+const getInitialFormData = (workout) => {
+  if (!workout) {
+    return {
+      exerciseName: '',
+      workoutType: 'Strength',
+      sets: '',
+      reps: '',
+      weight: '',
+      duration: '',
+      workoutDate: '',
+      notes: '',
+    };
+  }
+  const rawDate = workout.workoutDate || workout.date;
+  let dateString = new Date().toISOString().substring(0, 10);
+  if (rawDate) {
+    try {
+      if (typeof rawDate === 'string') {
+        dateString = rawDate.substring(0, 10);
+      } else if (rawDate instanceof Date) {
+        dateString = rawDate.toISOString().substring(0, 10);
+      } else {
+        dateString = new Date(rawDate).toISOString().substring(0, 10);
+      }
+    } catch {
+      dateString = new Date().toISOString().substring(0, 10);
+    }
+  }
+  return {
+    exerciseName: workout.exerciseName || '',
+    workoutType: workout.workoutType || 'Strength',
+    sets: workout.sets !== undefined ? workout.sets : '',
+    reps: workout.reps !== undefined ? workout.reps : '',
+    weight: workout.weight !== undefined ? workout.weight : '',
+    duration: workout.duration !== undefined ? workout.duration : '',
+    workoutDate: dateString,
+    notes: workout.notes || '',
+  };
+};
 
 const EditWorkoutModal = ({ workout, isOpen, onClose, onSave }) => {
-  const [formData, setFormData] = useState({
-    exerciseName: '',
-    workoutType: 'Strength',
-    sets: '',
-    reps: '',
-    weight: '',
-    duration: '',
-    workoutDate: '',
-    notes: '',
-  });
+  const [prevWorkout, setPrevWorkout] = useState(null);
+  const [formData, setFormData] = useState(() => getInitialFormData(workout));
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (workout) {
-      setFormData({
-        exerciseName: workout.exerciseName || '',
-        workoutType: workout.workoutType || 'Strength',
-        sets: workout.sets !== undefined ? workout.sets : '',
-        reps: workout.reps !== undefined ? workout.reps : '',
-        weight: workout.weight !== undefined ? workout.weight : '',
-        duration: workout.duration !== undefined ? workout.duration : '',
-        workoutDate: workout.workoutDate ? workout.workoutDate.substring(0, 10) : new Date().toISOString().substring(0, 10),
-        notes: workout.notes || '',
-      });
-    }
-  }, [workout]);
+  if (workout !== prevWorkout) {
+    setPrevWorkout(workout);
+    setFormData(getInitialFormData(workout));
+  }
 
   if (!isOpen || !workout) return null;
 
@@ -39,15 +61,20 @@ const EditWorkoutModal = ({ workout, isOpen, onClose, onSave }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    await onSave(workout._id || workout.id, {
-      ...formData,
-      sets: Number(formData.sets),
-      reps: Number(formData.reps),
-      weight: Number(formData.weight),
-      duration: Number(formData.duration),
-    });
-    setSubmitting(false);
-    onClose();
+    try {
+      await onSave(workout._id || workout.id, {
+        ...formData,
+        sets: Number(formData.sets),
+        reps: Number(formData.reps),
+        weight: Number(formData.weight),
+        duration: Number(formData.duration),
+      });
+      onClose();
+    } catch (err) {
+      console.error('Failed to update workout:', err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

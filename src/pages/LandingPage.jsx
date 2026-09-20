@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Dumbbell, Activity, Calendar, Zap, Shield, ChevronRight, TrendingUp, Award } from 'lucide-react';
+import { Dumbbell, Activity, Calendar, Zap, ChevronRight, TrendingUp } from 'lucide-react';
 
 const LandingPage = () => {
   const { isAuthenticated } = useAuth();

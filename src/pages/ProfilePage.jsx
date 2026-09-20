@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useWorkouts } from '../context/WorkoutContext';
-import { User, Mail, Award, Dumbbell, Clock, Flame, Shield, LogOut, CheckCircle2 } from 'lucide-react';
+import { User, Mail, Award, Dumbbell, Clock, Shield, LogOut, CheckCircle2 } from 'lucide-react';
 
 const ProfilePage = ({ showToast }) => {
   const { user, setUser, logout } = useAuth();

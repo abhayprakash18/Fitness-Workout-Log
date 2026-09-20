@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useWorkouts } from '../context/WorkoutContext';
 import EditWorkoutModal from '../components/EditWorkoutModal';
@@ -13,7 +13,6 @@ import {
   Clock,
   Dumbbell,
   AlertTriangle,
-  ChevronDown,
 } from 'lucide-react';
 
 const WorkoutHistoryPage = ({ showToast }) => {
