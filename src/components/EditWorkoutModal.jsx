@@ -64,8 +64,8 @@ const EditWorkoutModal = ({ workout, isOpen, onClose, onSave }) => {
     try {
       await onSave(workout._id || workout.id, {
         ...formData,
-        sets: Number(formData.sets),
-        reps: Number(formData.reps),
+        sets: formData.sets === '' ? 1 : Number(formData.sets),
+        reps: formData.reps === '' ? 1 : Number(formData.reps),
         weight: Number(formData.weight),
         duration: Number(formData.duration),
       });
@@ -139,7 +139,7 @@ const EditWorkoutModal = ({ workout, isOpen, onClose, onSave }) => {
               <label className="form-label">Sets</label>
               <input
                 type="number"
-                min="0"
+                min="1"
                 name="sets"
                 value={formData.sets}
                 onChange={handleChange}
@@ -151,7 +151,7 @@ const EditWorkoutModal = ({ workout, isOpen, onClose, onSave }) => {
               <label className="form-label">Reps</label>
               <input
                 type="number"
-                min="0"
+                min="1"
                 name="reps"
                 value={formData.reps}
                 onChange={handleChange}

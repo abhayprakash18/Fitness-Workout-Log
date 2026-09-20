@@ -53,8 +53,8 @@ const AddWorkoutPage = ({ showToast }) => {
     const workoutPayload = {
       exerciseName: formData.exerciseName.trim(),
       workoutType: formData.workoutType,
-      sets: formData.sets ? Number(formData.sets) : 0,
-      reps: formData.reps ? Number(formData.reps) : 0,
+      sets: formData.sets === '' ? 1 : Number(formData.sets),
+      reps: formData.reps === '' ? 1 : Number(formData.reps),
       weight: formData.weight ? Number(formData.weight) : 0,
       duration: Number(formData.duration),
       workoutDate: formData.workoutDate,
@@ -68,7 +68,7 @@ const AddWorkoutPage = ({ showToast }) => {
       showToast('Workout successfully recorded!', 'success');
       navigate('/history');
     } else {
-      showToast('Error recording workout. Please try again.', 'error');
+      showToast(result.error || 'Error recording workout. Please try again.', 'error');
     }
   };
 
@@ -157,7 +157,7 @@ const AddWorkoutPage = ({ showToast }) => {
                 <input
                   id="sets"
                   type="number"
-                  min="0"
+                  min="1"
                   name="sets"
                   placeholder="e.g. 4"
                   value={formData.sets}
@@ -174,7 +174,7 @@ const AddWorkoutPage = ({ showToast }) => {
                 <input
                   id="reps"
                   type="number"
-                  min="0"
+                  min="1"
                   name="reps"
                   placeholder="e.g. 10"
                   value={formData.reps}

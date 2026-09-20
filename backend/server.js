@@ -9,9 +9,6 @@ const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 // Load environment variables from .env file
 dotenv.config();
 
-// Connect to MongoDB Atlas Database
-connectDB();
-
 const app = express();
 
 // Enable CORS for frontend communication
@@ -29,6 +26,14 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// API root endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Fitness Workout Log API is running',
+  });
+});
+
 // Health Check API endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
@@ -45,7 +50,7 @@ app.use('/api/workouts', workoutRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 const startServer = (port) => {
   const server = app.listen(port, () => {
@@ -54,13 +59,17 @@ const startServer = (port) => {
 
   server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-      console.warn(`Port ${port} is currently in use (e.g. macOS ControlCenter/AirPlay). Trying port ${port + 1}...`);
-      startServer(port + 1);
+      console.error(`Port ${port} is already in use. Stop the existing backend process before starting another one.`);
+      process.exit(1);
     } else {
       console.error('Server error:', err);
+      process.exit(1);
     }
   });
 };
 
-startServer(Number(PORT));
+// Connect to MongoDB before accepting API requests.
+connectDB().then(() => {
+  startServer(Number(PORT));
+});
 

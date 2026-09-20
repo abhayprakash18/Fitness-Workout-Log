@@ -1,184 +1,357 @@
+
+
+:root {
+  --background: #d5de2ae5;
+  --surface: #c22424;
+  --surface-soft: #b9d7f5;
+
+  --text: #1e293b;
+  --text-h: #0f172a;
+  --text-muted: #64748b;
+
+  --border: #35776b;
+  --border-hover: #3c0a86;
+
+  --accent: #2563eb;
+  --accent-light: #f5f4e8;
+  --accent-border: #93c5fd;
+
+  --social-bg: #81b8f0;
+  --accent-bg: #8ee0e2;
+
+  --shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  color: var(--text);
+  background: var(--background);
+}
+
+
+/* =========================================
+   BODY
+   ========================================= */
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
+  background: var(--background);
+  color: var(--text);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================================
+   MAIN APPLICATION
+   ========================================= */
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================================
+   COUNTER / BUTTON
+   ========================================= */
+
 .counter {
   font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+  font-weight: 500;
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+  padding: 8px 14px;
+
+  border-radius: 8px;
+
+  color: var(--accent);
+  background: var(--accent-light);
+
+  border: 1px solid var(--accent-border);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+
+  margin-bottom: 24px;
 }
+
+.counter:hover {
+  background: #dbeafe;
+  border-color: #60a5fa;
+
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.12);
+
+  transform: translateY(-1px);
+}
+
+.counter:active {
+  transform: translateY(0);
+}
+
+.counter:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.25);
+  outline-offset: 3px;
+}
+
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
 
 .hero {
   position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
+  padding: 20px 0;
 }
+
+.hero .base,
+.hero .framework,
+.hero .vite {
+  inset-inline: 0;
+  margin: 0 auto;
+}
+
+.hero .base {
+  width: 170px;
+  position: relative;
+  z-index: 0;
+}
+
+.hero .framework,
+.hero .vite {
+  position: absolute;
+}
+
+.hero .framework {
+  z-index: 1;
+  top: 34px;
+  height: 28px;
+
+  transform:
+    perspective(2000px)
+    rotateZ(300deg)
+    rotateX(44deg)
+    rotateY(39deg)
+    scale(1.4);
+}
+
+.hero .vite {
+  z-index: 0;
+  top: 107px;
+  height: 26px;
+  width: auto;
+
+  transform:
+    perspective(2000px)
+    rotateZ(300deg)
+    rotateX(40deg)
+    rotateY(39deg)
+    scale(0.8);
+}
+
+
+/* =========================================
+   CENTER CONTENT
+   ========================================= */
 
 #center {
   display: flex;
   flex-direction: column;
+
   gap: 25px;
+
   place-content: center;
   place-items: center;
+
   flex-grow: 1;
 
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 40px 24px;
+
+  background: var(--background);
+
+  text-align: center;
 }
+
+
+/* Main headings */
+
+#center h1,
+#center h2 {
+  color: var(--text-h);
+
+  margin: 0;
+
+  font-weight: 700;
+
+  letter-spacing: -0.02em;
+}
+
+
+/* Paragraph */
+
+#center p {
+  color: var(--text-muted);
+
+  max-width: 650px;
+
+  margin: 0;
+
+  font-size: 16px;
+}
+
+
+/* =========================================
+   NEXT STEPS
+   ========================================= */
 
 #next-steps {
   display: flex;
+
   border-top: 1px solid var(--border);
+
+  background: var(--surface);
+
   text-align: left;
 
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
+  box-shadow: 0 -2px 10px rgba(15, 23, 42, 0.03);
+}
+
+
+/* Individual sections */
+
+#next-steps > div {
+  flex: 1 1 0;
+
+  padding: 24px;
+
+  border-right: 1px solid var(--border);
+}
+
+
+/* Remove border from last section */
+
+#next-steps > div:last-child {
+  border-right: none;
+}
+
+
+/* Next steps headings */
+
+#next-steps h3 {
+  margin-top: 0;
+
+  margin-bottom: 8px;
+
+  color: var(--text-h);
+
+  font-size: 18px;
+
+  font-weight: 600;
+}
+
+
+/* Next steps paragraphs */
+
+#next-steps p {
+  margin-top: 0;
+
+  margin-bottom: 0;
+
+  font-size: 14px;
+
+  color: var(--text-muted);
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 1024px) {
+  #center {
+    padding: 32px 20px 24px;
+
+    gap: 18px;
   }
 
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
+  #next-steps {
     flex-direction: column;
+
     text-align: center;
   }
-}
 
-#docs {
-  border-right: 1px solid var(--border);
+  #next-steps > div {
+    padding: 24px 20px;
 
-  @media (max-width: 1024px) {
     border-right: none;
+
     border-bottom: 1px solid var(--border);
   }
-}
 
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
+  #next-steps > div:last-child {
+    border-bottom: none;
   }
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
+
+/* =========================================
+   SMALL MOBILE DEVICES
+   ========================================= */
+
+@media (max-width: 600px) {
+  #center {
+    padding: 28px 16px;
+  }
+
+  #center h1 {
+    font-size: 28px;
+  }
+
+  #center h2 {
+    font-size: 22px;
+  }
+
+  #center p {
+    font-size: 15px;
+  }
+
+  .counter {
+    font-size: 14px;
+
+    padding: 7px 12px;
+  }
+
+  #next-steps > div {
+    padding: 20px 16px;
   }
 }
 
-.ticks {
-  position: relative;
-  width: 100%;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
-
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
-}

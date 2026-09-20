@@ -132,19 +132,11 @@ export const WorkoutProvider = ({ children }) => {
       setWorkouts((prev) => [createdWorkout, ...prev]);
       return { success: true, workout: createdWorkout };
     } catch (err) {
-      console.warn('API POST /api/workouts failed, inserting locally for smooth user flow:', err.message);
-      // Fallback local creation
-      const localWorkout = {
-        _id: 'w_' + Date.now(),
-        ...newWorkoutData,
-        sets: Number(newWorkoutData.sets) || 0,
-        reps: Number(newWorkoutData.reps) || 0,
-        weight: Number(newWorkoutData.weight) || 0,
-        duration: Number(newWorkoutData.duration) || 0,
-        createdAt: new Date().toISOString(),
+      console.error('API POST /api/workouts failed:', err.message);
+      return {
+        success: false,
+        error: err.response?.data?.message || 'Could not save workout to the database.',
       };
-      setWorkouts((prev) => [localWorkout, ...prev]);
-      return { success: true, workout: localWorkout, isLocal: true };
     } finally {
       setLoading(false);
     }
@@ -161,11 +153,11 @@ export const WorkoutProvider = ({ children }) => {
       );
       return { success: true, workout: updatedWorkout };
     } catch (err) {
-      console.warn(`API PUT /api/workouts/${id} failed, updating locally:`, err.message);
-      setWorkouts((prev) =>
-        prev.map((item) => (item._id === id || item.id === id ? { ...item, ...updatedData } : item))
-      );
-      return { success: true, isLocal: true };
+      console.error(`API PUT /api/workouts/${id} failed:`, err.message);
+      return {
+        success: false,
+        error: err.response?.data?.message || 'Could not update workout in the database.',
+      };
     } finally {
       setLoading(false);
     }
@@ -179,9 +171,11 @@ export const WorkoutProvider = ({ children }) => {
       setWorkouts((prev) => prev.filter((item) => item._id !== id && item.id !== id));
       return { success: true };
     } catch (err) {
-      console.warn(`API DELETE /api/workouts/${id} failed, deleting locally:`, err.message);
-      setWorkouts((prev) => prev.filter((item) => item._id !== id && item.id !== id));
-      return { success: true, isLocal: true };
+      console.error(`API DELETE /api/workouts/${id} failed:`, err.message);
+      return {
+        success: false,
+        error: err.response?.data?.message || 'Could not delete workout from the database.',
+      };
     } finally {
       setLoading(false);
     }
